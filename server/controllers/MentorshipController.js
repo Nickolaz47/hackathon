@@ -73,8 +73,9 @@ const updateMentorship = async (req, res) => {
   // Check if the request user is the same of the mentorship
   const reqUser = req.user;
 
-  if (reqUser._id !== mentorship.mentorId) {
+  if (!mentorship.mentorId.equals(reqUser._id)) {
     res.status(401).json({ errors: ["Acesso negado!"] });
+    return;
   }
 
   if (title) {
