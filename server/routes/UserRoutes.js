@@ -6,6 +6,7 @@ const {
   register,
   login,
   getCurrentUser,
+  updateUser,
 } = require("../controllers/UserController");
 
 // Middlewares
