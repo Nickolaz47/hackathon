@@ -1,9 +1,14 @@
 import './App.css';
+import Formulario from './components/Form';
+import Login from './pages/Login/Login';
 
-function App() {
+
+const App = () => {
   return (
-    <div className="App">
-    </div>
+          <>
+            <Formulario />
+            <Login  />      
+          </>
   );
 }
 
