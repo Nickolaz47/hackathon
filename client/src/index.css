@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.title {
+  justify-content: center;
+  padding: 10pt;
+  text-decoration: underline;
+}
+
+.gradient-custom {
+  background: #746c55;
+  background: -webkit-linear-gradient(to right, rgb(76, 203, 17), rgba(37, 117, 252, 1));
+  background: linear-gradient(to right, rgb(67, 117, 46), rgba(37, 117, 252, 1))
+}
+
+.center-layout{
+      padding: 10px;
+}
