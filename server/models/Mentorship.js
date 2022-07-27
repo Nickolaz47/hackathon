@@ -8,7 +8,7 @@ const mentorshipSchema = new Schema(
     description: String,
     mentorId: mongoose.ObjectId,
     mentorName: String,
-    desiredStudents: Number,
+    numberDesiredStudents: Number,
     students: Array,
     price: Number,
     duration: Number,
