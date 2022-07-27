@@ -13,7 +13,7 @@ const generateToken = (id) => {
 
 // Register user and sign in
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role, subject } = req.body;
 
   // Check if user exists by email
   const user = await User.findOne({ email });
@@ -31,6 +31,8 @@ const register = async (req, res) => {
     name,
     email,
     password: passwordHash,
+    role,
+    subject,
   });
 
   // If user was created successfully, return the token
@@ -62,4 +64,75 @@ const login = async (req, res) => {
   });
 };
 
-module.exports = { register, login };
+// Get current logged in user
+const getCurrentUser = async (req, res) => {
+  const user = req.user;
+  res.status(200).json(user);
+};
+
+// Update a user
+const updateUser = async (req, res) => {
+  const { name, password, bio, role, subject } = req.body;
+
+  let profileImage = null;
+
+  if (req.file) {
+    profileImage = req.file.filename;
+  }
+
+  const reqUser = req.user;
+
+  const user = await User.findById(mongoose.Types.ObjectId(reqUser._id)).select(
+    "-password"
+  );
+
+  if (name) {
+    user.name = name;
+  }
+
+  if (password) {
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
+    user.password = passwordHash;
+  }
+
+  if (profileImage) {
+    user.profileImage = profileImage;
+  }
+
+  if (bio) {
+    user.bio = bio;
+  }
+
+  if (role) {
+    user.role = role;
+  }
+
+  if (subject) {
+    user.subject = subject;
+  }
+
+  await user.save();
+
+  res.status(200).json(user);
+};
+
+// Get user by id
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(mongoose.Types.ObjectId(id)).select(
+      "-password"
+    );
+    if (!user) {
+      res.status(404).json({ errors: ["Usuário não encontrado!"] });
+      return;
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(422).json({ errors: ["Usuário não encontrado!"] });
+    return;
+  }
+};
+
+module.exports = { register, login, getCurrentUser, updateUser, getUserById };
