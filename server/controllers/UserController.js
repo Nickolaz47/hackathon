@@ -13,7 +13,7 @@ const generateToken = (id) => {
 
 // Register user and sign in
 const register = async (req, res) => {
-  const { name, email, password, role, subject} = req.body;
+  const { name, email, password, role, subject } = req.body;
 
   // Check if user exists by email
   const user = await User.findOne({ email });
@@ -32,7 +32,7 @@ const register = async (req, res) => {
     email,
     password: passwordHash,
     role,
-    subject
+    subject,
   });
 
   // If user was created successfully, return the token
@@ -64,4 +64,10 @@ const login = async (req, res) => {
   });
 };
 
-module.exports = { register, login };
+// Get current logged in user
+const getCurrentUser = async (req, res) => {
+  const user = req.user;
+  res.status(200).json(user);
+};
+
+module.exports = { register, login, getCurrentUser };
