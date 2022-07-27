@@ -13,7 +13,7 @@ const generateToken = (id) => {
 
 // Register user and sign in
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role, subject} = req.body;
 
   // Check if user exists by email
   const user = await User.findOne({ email });
@@ -31,6 +31,8 @@ const register = async (req, res) => {
     name,
     email,
     password: passwordHash,
+    role,
+    subject
   });
 
   // If user was created successfully, return the token
