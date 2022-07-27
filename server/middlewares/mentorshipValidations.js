@@ -49,4 +49,61 @@ const mentorshipCreateValidation = () => {
   ];
 };
 
-module.exports = { mentorshipCreateValidation };
+const mentorshipUpdateValidation = () => {
+  return [
+    body("title")
+      .optional()
+      .notEmpty()
+      .withMessage("Título inválido!")
+      .isString()
+      .withMessage("Título inválido!"),
+    body("subject")
+      .optional()
+      .notEmpty()
+      .withMessage("Assunto inválido!")
+      .isString()
+      .withMessage("Assunto inválido!"),
+    body("description")
+      .optional()
+      .notEmpty()
+      .withMessage("Descrição inválida!")
+      .isString()
+      .withMessage("Descrição inválida!"),
+    body("numberDesiredStudents")
+      .optional()
+      .notEmpty()
+      .withMessage("Quantidade de alunos inválida!")
+      .toInt()
+      .isNumeric()
+      .withMessage("Quantidade de alunos inválida!"),
+    body("price")
+      .optional()
+      .notEmpty()
+      .withMessage("Preço inválido!")
+      .toFloat()
+      .isNumeric()
+      .withMessage("Preço inválido!"),
+    body("duration")
+      .optional()
+      .notEmpty()
+      .withMessage("Duração inválida!")
+      .toFloat()
+      .isNumeric()
+      .withMessage("Duração inválida!"),
+    body("time")
+      .optional()
+      .notEmpty()
+      .withMessage("Horário inválido!")
+      .isString()
+      .withMessage("Horário inválido!"),
+    body("date")
+      .optional()
+      .notEmpty()
+      .withMessage("Data inválida!")
+      .isISO8601()
+      .toDate()
+      .withMessage("Data inválida!"),
+  ];
+};
+
+module.exports = { mentorshipCreateValidation, mentorshipUpdateValidation };
