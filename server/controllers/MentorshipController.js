@@ -114,6 +114,37 @@ const updateMentorship = async (req, res) => {
 
   res.status(200).json({ mentorship, message: "Mentoria atualizada!" });
 };
-const deleteMentorship = async (req, res) => {};
+const deleteMentorship = async (req, res) => {
+  const { id } = req.params;
+
+  // Check if id is valid
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(422).json({ errors: ["Mentoria não encontrada!"] });
+    return;
+  }
+
+  const reqUser = req.user;
+  const mentorship = await Mentorship.findById(mongoose.Types.ObjectId(id));
+
+  // Check if mentorship exists
+  if (!mentorship) {
+    res.status(404).json({ errors: ["Mentoria não encontrada!"] });
+    return;
+  }
+
+  // Check if mentorship belongs to user
+  if (!mentorship.mentorId.equals(reqUser._id)) {
+    res
+      .status(422)
+      .json({ errors: ["Ocorreu um erro, tente novamente mais tarde"] });
+    return;
+  }
+
+  await mentorship.findByIdAndDelete(mentorship._id);
+
+  res
+    .status(200)
+    .json({ id: mentorship._id, message: "Mentoria excluída com sucesso." });
+};
 
 module.exports = { insertMentorship, updateMentorship, deleteMentorship };
