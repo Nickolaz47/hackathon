@@ -43,7 +43,76 @@ const insertMentorship = async (req, res) => {
 
   res.status(201).json(newMentorship);
 };
-const updateMentorship = async (req, res) => {};
+const updateMentorship = async (req, res) => {
+  const { id } = req.params;
+  const {
+    title,
+    subject,
+    description,
+    numberDesiredStudents,
+    price,
+    duration,
+    time,
+    date,
+  } = req.body;
+
+  // Check if id is valid
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(422).json({ errors: ["Mentoria não encontrada!"] });
+    return;
+  }
+
+  const mentorship = await Mentorship.findById(id);
+
+  // Check if mentorship exists
+  if (!mentorship) {
+    res.status(422).json({ errors: ["Mentoria não encontrada!"] });
+    return;
+  }
+
+  // Check if the request user is the same of the mentorship
+  const reqUser = req.user;
+
+  if (reqUser._id !== mentorship.mentorId) {
+    res.status(401).json({ errors: ["Acesso negado!"] });
+  }
+
+  if (title) {
+    mentorship.title = title;
+  }
+
+  if (subject) {
+    mentorship.subject = subject;
+  }
+
+  if (description) {
+    mentorship.description = description;
+  }
+
+  if (numberDesiredStudents) {
+    mentorship.numberDesiredStudents = numberDesiredStudents;
+  }
+
+  if (price) {
+    mentorship.price = price;
+  }
+
+  if (duration) {
+    mentorship.duration = duration;
+  }
+
+  if (time) {
+    mentorship.time = time;
+  }
+
+  if (date) {
+    mentorship.date = date;
+  }
+
+  await mentorship.save();
+
+  res.status(200).json({ mentorship, message: "Mentoria atualizada!" });
+};
 const deleteMentorship = async (req, res) => {};
 
 module.exports = { insertMentorship, updateMentorship, deleteMentorship };
