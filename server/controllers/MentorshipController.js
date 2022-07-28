@@ -147,4 +147,94 @@ const deleteMentorship = async (req, res) => {
     .json({ id: mentorship._id, message: "Mentoria excluída com sucesso." });
 };
 
-module.exports = { insertMentorship, updateMentorship, deleteMentorship };
+// Get all mentorships
+const getAllMentorships = async (req, res) => {
+  const mentorships = await Mentorship.find({})
+    .sort([["createdAt", -1]])
+    .exec();
+  res.status(200).json(mentorships);
+};
+
+// Get user mentorships
+const getUserMentorships = async (req, res) => {
+  const { id } = req.params;
+  const mentorships = await Mentorship.find({ userId: id })
+    .sort({ createdAt: -1 })
+    .exec();
+  res.status(200).json(mentorships);
+};
+
+// Get mentorship by id
+const getMentorshipById = async (req, res) => {
+  const { id } = req.params;
+
+  // Check if id is valid
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(422).json({ errors: ["Mentoria não encontrada!"] });
+    return;
+  }
+
+  const mentorship = await Mentorship.findById(mongoose.Types.ObjectId(id));
+
+  // Check if mentorship exists
+  if (!mentorship) {
+    res.status(422).json({ errors: ["Mentoria não encontrada!"] });
+    return;
+  }
+
+  res.status(200).json(mentorship);
+};
+
+// Add student to mentorship
+const addStudentToMentorship = async (req, res) => {
+  const { id } = req.params;
+
+  // Check if id is valid
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(422).json({ errors: ["Mentoria não encontrada!"] });
+    return;
+  }
+
+  const reqUser = req.user;
+  const user = await User.findById(mongoose.Types.ObjectId(reqUser._id)).select(
+    "-password"
+  );
+  const mentorship = await Mentorship.findById(mongoose.Types.ObjectId(id));
+
+  // Check if mentorship exists
+  if (!mentorship) {
+    res.status(404).json({ errors: ["Mentoria não encontrada!"] });
+    return;
+  }
+
+  // Check if user already enters in the mentorship
+  if (mentorship.students.includes(user._id)) {
+    res.status(422).json({ errors: ["Você já está na mentoria!"] });
+    return;
+  }
+
+  // Put student info in array
+  mentorship.students.push({
+    student: user._id,
+    studentName: user.name,
+    studentProfileImage: user.profileImage,
+  });
+
+  await mentorship.save();
+
+  res.status(200).json({
+    mentorshipId: id,
+    userId: user._id,
+    message: "Você foi incluído na mentoria!",
+  });
+};
+
+module.exports = {
+  insertMentorship,
+  updateMentorship,
+  deleteMentorship,
+  getAllMentorships,
+  getUserMentorships,
+  getMentorshipById,
+  addStudentToMentorship
+};
