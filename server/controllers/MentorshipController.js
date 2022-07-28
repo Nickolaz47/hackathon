@@ -140,7 +140,7 @@ const deleteMentorship = async (req, res) => {
     return;
   }
 
-  await mentorship.findByIdAndDelete(mentorship._id);
+  await Mentorship.findByIdAndDelete(mentorship._id);
 
   res
     .status(200)

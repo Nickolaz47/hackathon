@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   insertMentorship,
   updateMentorship,
+  deleteMentorship,
 } = require("../controllers/MentorshipController");
 // Middlewares
 const authGuard = require("../middlewares/authGuard");
@@ -21,6 +22,7 @@ router.post(
   validate,
   insertMentorship
 );
+router.delete("/:id", authGuard, deleteMentorship);
 router.put(
   "/:id",
   authGuard,
