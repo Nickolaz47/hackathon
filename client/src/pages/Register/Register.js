@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 // Components
 import Message from "../../components/Message";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -165,6 +166,9 @@ const Register = () => {
           )}
           {error && <Message msg={error} type="error" />}
         </div>
+        <p className="text-center">
+          Já tem conta? <Link to="/login">Clique aqui.</Link>
+        </p>
       </form>
     </div>
   );

@@ -1,5 +1,6 @@
 // Hooks
 import { useContext } from "react";
+import { useAuth } from "../hooks/useAuth";
 // Components
 import { NavLink } from "react-router-dom";
 // Contexts
@@ -7,6 +8,7 @@ import { UserContext } from "../contexts/UserContext";
 
 const Navbar = () => {
   const { user } = useContext(UserContext);
+  const { logout } = useAuth();
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -43,7 +45,7 @@ const Navbar = () => {
                 <NavLink className="nav-link" to="/dashboard">
                   Dashboard
                 </NavLink>
-                <span className="nav-link" role="button" onClick={''}>
+                <span className="nav-link" role="button" onClick={logout}>
                   Logout
                 </span>
               </>
