@@ -208,16 +208,19 @@ const addStudentToMentorship = async (req, res) => {
   }
 
   // Check if user already enters in the mentorship
-  if (mentorship.students.includes(user._id)) {
+  const studentObject = mentorship.students.filter(
+    (obj) => obj.userId !== user._id
+  )[0];
+  if (studentObject) {
     res.status(422).json({ errors: ["Você já está na mentoria!"] });
     return;
   }
 
   // Put student info in array
   mentorship.students.push({
-    student: user._id,
-    studentName: user.name,
-    studentProfileImage: user.profileImage,
+    userId: user._id,
+    userName: user.name,
+    userProfileImage: user.profileImage,
   });
 
   await mentorship.save();
@@ -236,5 +239,5 @@ module.exports = {
   getAllMentorships,
   getUserMentorships,
   getMentorshipById,
-  addStudentToMentorship
+  addStudentToMentorship,
 };

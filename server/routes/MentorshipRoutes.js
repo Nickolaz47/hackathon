@@ -6,6 +6,10 @@ const {
   insertMentorship,
   updateMentorship,
   deleteMentorship,
+  getAllMentorships,
+  getUserMentorships,
+  getMentorshipById,
+  addStudentToMentorship,
 } = require("../controllers/MentorshipController");
 // Middlewares
 const authGuard = require("../middlewares/authGuard");
@@ -30,5 +34,6 @@ router.put(
   validate,
   updateMentorship
 );
+router.put("/student/:id", authGuard, addStudentToMentorship)
 
 module.exports = router;
