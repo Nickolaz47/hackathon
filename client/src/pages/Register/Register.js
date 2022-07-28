@@ -1,4 +1,8 @@
+// Hooks
 import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
+// Components
+import Message from "../../components/Message";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -10,6 +14,8 @@ const Register = () => {
   const [role, setRole] = useState("");
   const [subject, setSubject] = useState("");
 
+  const { error, loading, register } = useAuth();
+
   const subjectOptions = [
     { name: "Escolha o tema", value: undefined },
     { name: "HTML", value: "html" },
@@ -19,7 +25,7 @@ const Register = () => {
     { name: "Python", value: "python" },
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newUser = {
       name,
@@ -31,7 +37,7 @@ const Register = () => {
       role,
       subject,
     };
-    console.log(newUser);
+    await register(newUser);
   };
 
   return (
@@ -146,10 +152,18 @@ const Register = () => {
             ))}
           </select>
         </div>
-        <div className="text-center mt-3">
-          <button className="btn btn-primary" type="submit">
-            Cadastrar
-          </button>
+        <div className="mx-auto text-center my-3">
+          {!loading && (
+            <button className="btn btn-primary" type="submit">
+              Cadastrar
+            </button>
+          )}
+          {loading && (
+            <button className="btn btn-primary" type="submit" disabled>
+              Cadastrando...
+            </button>
+          )}
+          {error && <Message msg={error} type="error" />}
         </div>
       </form>
     </div>

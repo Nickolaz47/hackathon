@@ -35,10 +35,16 @@ const userCreateValidation = () => {
         }
         return true;
       }),
-    body("role").isString().withMessage("Escolha uma das opções!"),
-    body("subject")
+    body("role")
+      .notEmpty()
+      .withMessage("Escolha uma das opções!")
       .isString()
-      .withMessage("O conteúdo a ser mentorado ou buscado é obrigatório!"),
+      .withMessage("Escolha uma das opções!"),
+    body("subject")
+      .notEmpty()
+      .withMessage("O conteúdo a ser estudado ou mentorado é obrigatório!")
+      .isString()
+      .withMessage("O conteúdo a ser estudado ou mentorado é obrigatório!"),
   ];
 };
 

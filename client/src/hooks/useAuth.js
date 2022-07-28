@@ -1,15 +1,18 @@
-import { useState, useEffect } from "react";
+// Hooks
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+// Contexts
+import { UserContext } from "../contexts/UserContext";
+
 import axios from "axios";
 
 export const useAuth = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const navigate = useNavigate();
-  const url = "http://localhost:8080/users";
+  const { setUser } = useContext(UserContext);
 
-  // Trying to get user from localstorage
-  const user = JSON.parse(localStorage.getItem("user"));
+  const url = "http://localhost:8080/api/users";
 
   //   Avoiding memory leak
   const [cancelled, setCancelled] = useState(false);
@@ -26,14 +29,26 @@ export const useAuth = () => {
 
     try {
       const registeredUser = await axios.post(`${url}/register`, data);
-      return registeredUser;
+      setUser(registeredUser.data);
+      localStorage.setItem("user", JSON.stringify(registeredUser.data));
+      setLoading(false);
+      navigate("/dashboard");
     } catch (err) {
-      setError(err[0]);
+      const response = await err.response;
+      const errorData = await response.data;
+      const firstError = await errorData.errors[0];
+
+      setLoading(false);
+      setError(firstError);
     }
   };
 
   const login = () => {};
   const logout = () => {};
 
-  return {register, login, logout, error, loading}
+  useEffect(() => {
+    return () => setCancelled(true);
+  }, []);
+
+  return { register, login, logout, error, loading };
 };
