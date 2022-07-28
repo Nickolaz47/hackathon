@@ -28,6 +28,7 @@ router.post(
 );
 router.delete("/:id", authGuard, deleteMentorship);
 router.get("/", authGuard, getAllMentorships);
+router.get("/user/:id", authGuard, getUserMentorships)
 router.put(
   "/:id",
   authGuard,
