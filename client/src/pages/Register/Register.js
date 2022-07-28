@@ -1,4 +1,15 @@
+import { useState } from "react";
+
 const Register = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [institution, setInstitution] = useState("");
+  const [role, setRole] = useState("");
+  const [subject, setSubject] = useState("");
+
   const subjectOptions = [
     { name: "Escolha o tema", value: undefined },
     { name: "HTML", value: "html" },
@@ -10,6 +21,17 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newUser = {
+      name,
+      email,
+      confirmEmail,
+      password,
+      confirmPassword,
+      institution,
+      role,
+      subject,
+    };
+    console.log(newUser);
   };
 
   return (
@@ -18,11 +40,25 @@ const Register = () => {
       <form className="row mb-3" onSubmit={handleSubmit}>
         <div className="col-md-6">
           <label className="form-label">Nome</label>
-          <input type="text" className="form-control" placeholder="Nome" />
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Nome"
+            value={name || ""}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
         </div>
         <div className="col-md-6">
           <label className="form-label">E-mail</label>
-          <input type="email" className="form-control" placeholder="E-mail" />
+          <input
+            type="email"
+            className="form-control"
+            placeholder="E-mail"
+            value={email || ""}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
         <div className="col-md-6">
           <label className="form-label">Confirme o e-mail</label>
@@ -30,11 +66,21 @@ const Register = () => {
             type="email"
             className="form-control"
             placeholder="Confirme o e-mail"
+            value={confirmEmail || ""}
+            onChange={(e) => setConfirmEmail(e.target.value)}
+            required
           />
         </div>
         <div className="col-md-6">
           <label className="form-label">Senha</label>
-          <input type="password" className="form-control" placeholder="Senha" />
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Senha"
+            value={password || ""}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
         <div className="col-md-6">
           <label className="form-label">Confirme a senha</label>
@@ -42,38 +88,57 @@ const Register = () => {
             type="password"
             className="form-control"
             placeholder="Confirme a senha"
+            value={confirmPassword || ""}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="col-md-6">
+          <label className="form-label">Instituição</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Instituição"
+            value={institution || ""}
+            onChange={(e) => setInstitution(e.target.value)}
           />
         </div>
         <div className="col-md-6">
           <label className="form-label">Qual o seu perfil?</label>
           <br />
           <div className="text-center">
-            <div class="form-check form-check-inline">
+            <div className="form-check form-check-inline">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="radio"
                 name="radioOption"
                 id="studentRadio"
                 value="student"
-                checked
+                onChange={(e) => setRole(e.target.value)}
               />
-              <label class="form-check-label">Estudante</label>
+              <label className="form-check-label">Estudante</label>
             </div>
-            <div class="form-check form-check-inline">
+            <div className="form-check form-check-inline">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="radio"
                 name="radioOption"
                 id="mentorRadio"
                 value="mentor"
+                onChange={(e) => setRole(e.target.value)}
               />
-              <label class="form-check-label">Mentor</label>
+              <label className="form-check-label">Mentor</label>
             </div>
           </div>
         </div>
         <div className="col-md-6">
-          <label className="form-label">Escolha o tema de interesse:</label>
-          <select class="form-select" aria-label="Default select example">
+          <label className="form-label">
+            Escolha o tema que deseja aprender ou mentorar:
+          </label>
+          <select
+            className="form-select"
+            onChange={(e) => setSubject(e.target.value)}
+          >
             {subjectOptions.map(({ name, value }, idx) => (
               <option key={idx} value={value}>
                 {name}
