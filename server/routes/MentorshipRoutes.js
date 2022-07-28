@@ -27,6 +27,7 @@ router.post(
   insertMentorship
 );
 router.delete("/:id", authGuard, deleteMentorship);
+router.get("/", authGuard, getAllMentorships);
 router.put(
   "/:id",
   authGuard,
@@ -34,6 +35,6 @@ router.put(
   validate,
   updateMentorship
 );
-router.put("/student/:id", authGuard, addStudentToMentorship)
+router.put("/student/:id", authGuard, addStudentToMentorship);
 
 module.exports = router;
