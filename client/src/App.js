@@ -1,5 +1,6 @@
 // Hooks
 // Components
+import Navbar from "./components/Navbar";
 // Pages
 import Home from "./pages/Home/Home";
 import Register from "./pages/Register/Register";
@@ -13,13 +14,13 @@ const App = () => {
   return (
     <div className="container">
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
         </Routes>
       </BrowserRouter>
-      {/* <Login /> */}
     </div>
   );
 };
