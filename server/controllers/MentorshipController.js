@@ -207,6 +207,18 @@ const addStudentToMentorship = async (req, res) => {
     return;
   }
 
+  // Check if the user is the owner of the mentorship
+  if (mentorship.mentorId.equals(user._id)) {
+    res
+      .status(422)
+      .json({
+        errors: [
+          "Você é o dono da mentoria, não pode ser adionado como estudante!",
+        ],
+      });
+    return;
+  }
+
   // Check if user already enters in the mentorship
   const studentObject = mentorship.students.filter(
     (obj) => obj.userId !== user._id
