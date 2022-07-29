@@ -5,7 +5,8 @@ const port = process.env.PORT;
 const api = `http://localhost:${port}`
 
 axios.get(api).then((res) => {
-  console.log(res)
+  let arrayQuestions = res.data;
+  return arrayQuestions;
 })
 
 
@@ -17,7 +18,13 @@ const Questions = () => {
       <h1>Questions</h1>
       <ul type={'none'}>
         {listaPerguntas.map((pergunta) => (
-          <><li>{pergunta}</li><br></br></>
+          <>
+            <li>{pergunta}</li>
+            <br></br>
+            <button>Responder!</button> 
+            {/*caso não esteja logado (implementar a lógica), abrir um modal direcionando ao login/registro*/}
+            <p>----------------------------------------------------</p> 
+          </>
         ))}
       </ul>
     </div>
