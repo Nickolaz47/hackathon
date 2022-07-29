@@ -1,8 +1,15 @@
-import { useState } from "react";
+// Hooks
+import { useEffect, useState, useContext } from "react";
+import { useUserCrud } from "../hooks/useUserCrud";
+// Contexts
+import { UserContext } from "../contexts/UserContext";
+// Data
 import subjectOptions from "../data/subjectOptions.json";
+import { uploads } from "../utils/config";
 
 const Profile = () => {
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [bio, setBio] = useState("");
@@ -10,10 +17,32 @@ const Profile = () => {
   const [subject, setSubject] = useState("");
   const [institution, setInstitution] = useState("");
   const [previewImage, setPreviewImage] = useState("");
+  const [currentUser, setCurrentUser] = useState("");
 
-  // Route to post profile image
-  const uploads = "http://localhost:8080/uploads";
-  const user = {};
+  const { user } = useContext(UserContext);
+  const { getCurrentUser, updateUser } = useUserCrud();
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      if (user) {
+        const res = await getCurrentUser(user);
+        setCurrentUser(res);
+      }
+    };
+    fetchRequest();
+  }, [user]);
+
+  // fill user form
+  useEffect(() => {
+    if (currentUser) {
+      setName(currentUser.name);
+      setEmail(currentUser.email);
+      setBio(currentUser.bio);
+      setRole(currentUser.role);
+      setSubject(currentUser.subject);
+      setInstitution(currentUser.institution);
+    }
+  }, [currentUser]);
 
   const handleFile = (e) => {
     e.preventDefault();
@@ -64,22 +93,27 @@ const Profile = () => {
     );
 
     formData.append("user", userFormData);
-
   };
 
   return (
     <div className="container">
       <h2 className="text-center title">Edite seus dados</h2>
-      {(user.profileImage || previewImage) && (
-        <img
-          className="img-thumbnail rounded-circle"
-          src={
-            previewImage
-              ? URL.createObjectURL(previewImage)
-              : `${uploads}/users/${user.profileImage}`
-          }
-          alt={user.name}
-        />
+      {(currentUser.profileImage || previewImage) && (
+        <div className="text-center">
+          <img
+            className="img-thumbnail mb-2 rounded-circle"
+            style={{
+              maxHeight: "175px",
+              maxWidth: "175px",
+            }}
+            src={
+              previewImage
+                ? URL.createObjectURL(previewImage)
+                : `${uploads}/currentUsers/${currentUser.profileImage}`
+            }
+            alt={currentUser.name}
+          />
+        </div>
       )}
       <form className="row mb-3" onSubmit={handleSubmit}>
         <div className="col-md-6">
@@ -91,6 +125,16 @@ const Profile = () => {
             value={name || ""}
             onChange={(e) => setName(e.target.value)}
             required
+          />
+        </div>
+        <div className="col-md-6">
+          <label className="form-label">E-mail</label>
+          <input
+            type="email"
+            className="form-control"
+            placeholder="E-mail"
+            value={email || ""}
+            readOnly
           />
         </div>
         <div className="col-md-6">
@@ -140,7 +184,7 @@ const Profile = () => {
                 id="studentRadio"
                 value="student"
                 onChange={(e) => setRole(e.target.value)}
-                defaultChecked={role === "student"}
+                checked={role === "student"}
               />
               <label className="form-check-label">Estudante</label>
             </div>
@@ -164,12 +208,11 @@ const Profile = () => {
           </label>
           <select
             value={subject}
-            defaultValue={subject}
             className="form-select"
             onChange={(e) => setSubject(e.target.value)}
           >
             {subjectOptions.map(({ name, value }, idx) => (
-              <option key={idx} value={value}>
+              <option key={idx} value={value} selected={subject === value}>
                 {name}
               </option>
             ))}

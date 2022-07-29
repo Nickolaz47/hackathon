@@ -2,15 +2,13 @@
 import { useState, useEffect, useContext } from "react";
 // Contexts
 import { UserContext } from "../contexts/UserContext";
-
+import { usersUrl, requestConfig } from "../utils/config";
 import axios from "axios";
 
 export const useAuth = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const { setUser } = useContext(UserContext);
-
-  const url = "http://localhost:8080/api/users";
 
   //   Avoiding memory leak
   const [cancelled, setCancelled] = useState(false);
@@ -21,12 +19,13 @@ export const useAuth = () => {
   };
 
   const register = async (data) => {
+    const config = requestConfig("post", data)
     checkIfIsCancelled();
     setLoading(true);
     setError(null);
 
     try {
-      const registeredUser = await axios.post(`${url}/register`, data);
+      const registeredUser = await axios(`${usersUrl}/register`, config);
 
       setUser(registeredUser.data);
       localStorage.setItem("user", JSON.stringify(registeredUser.data));
@@ -43,12 +42,13 @@ export const useAuth = () => {
   };
 
   const login = async (data) => {
+    const config = requestConfig("post", data)
     checkIfIsCancelled();
     setLoading(true);
     setError(null);
 
     try {
-      const loggedUser = await axios.post(`${url}/login`, data);
+      const loggedUser = await axios(`${usersUrl}/login`, config);
 
       setUser(loggedUser.data);
       localStorage.setItem("user", JSON.stringify(loggedUser.data));
