@@ -11,10 +11,10 @@ const Navbar = () => {
   const { logout } = useAuth();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar">
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">
-          Navbar
+          <h3>The Coders</h3>
         </NavLink>
         <button
           className="navbar-toggler"
