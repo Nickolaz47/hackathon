@@ -15,10 +15,10 @@ const Questions = () => {
   return (
     <div className='container-fluid'>
       <h1>Questions</h1>
-      <ul>
-        {listaPerguntas.map((pergunta) => {
-          <li>{pergunta}</li>
-        })}
+      <ul type={'none'}>
+        {listaPerguntas.map((pergunta) => (
+          <><li>{pergunta}</li><br></br></>
+        ))}
       </ul>
     </div>
   )
