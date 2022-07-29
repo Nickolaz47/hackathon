@@ -7,19 +7,24 @@ const Answer = () => {
 
     const [questionsDb,setQuestionsDb] = useState('') // preciso requisitar por um get e aparecer as perguntas a serem respondidas
     //    
+    const [answer,setAnswer] = useState('')
 
-    const questionsImported = async () => {
+    const questionsImported = async () => { // to aqui agora
       setQuestionsDb(await axios.get(`${api}/mentorships`));
     }
 
     useEffect(questionsImported, [])
-    // passar por props depois o texto da questão para exibir em <p></p>
     
     const listaPerguntas = ['pergunta1','pergunta2','pergunta3'] // depois substituir pelo array vindo do get
 
     const handleOnChange = (e) => {
-        setQuestionsDb(e.target.value);
+        setAnswer(e.target.value);
     };
+
+    // const typeText = () => {
+
+    // }
+    // falta fazer função que poste todas as respostas a uma pergunta a ela, no db
 
     // colocar sistema onde somente pessoas autenticadas possam responder
 
@@ -28,14 +33,14 @@ const Answer = () => {
             <h1>Perguntas</h1>
             {/* <p>{questionsDb}</p> */}
             <ul type={'none'}>
-            {listaPerguntas.map((pergunta) => (
+            {listaPerguntas.map((pergunta) => ( // mapear lista de perguntas do get
             <>
                 <li>{pergunta}</li>
                 <br></br>
-                <form>
+                <form onSubmit=''>
                     <label for={'answer'}>Resposta</label>
                     <br></br>
-                    <input type={'text'} id={'answer'} value={questionsDb} placeholder={'Digite aqui sua resposta'} onChange={handleOnChange}></input>
+                    <input type={'text'} id={'answer'} value={answer} placeholder={'Digite aqui sua resposta'} onChange={handleOnChange}></input>
                     <br></br><br></br>
                     <input type={'submit'}></input>
                 </form> 
