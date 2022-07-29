@@ -1,4 +1,7 @@
+// Hooks
 import { useState } from "react";
+// Components
+import Profile from "../../components/Profile";
 
 const Dashboard = () => {
   const [menuOption, setMenuOption] = useState("profile");
@@ -37,7 +40,7 @@ const Dashboard = () => {
           </button>
         </aside>
         <div className="col-md-9">
-          {}
+          {menuOption === "profile" && <Profile />}
           {}
           {}
           {}
