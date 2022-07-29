@@ -9,7 +9,7 @@ const Mentorships = () => {
 
   const [mentorshipsDb,setMentorshipsDb] = useState('');
 
-  axios.get(`${api}/mentorships`).then((res) => {
+  axios.get(`${api}/mentorships`).then((res) => { // quem estiver autenticado, fazer tal requisição
     setMentorshipsDb(res.data);
   }).catch((error) => {
     console.log(error)
@@ -19,10 +19,12 @@ const Mentorships = () => {
     <div className='container'>
       <h1>Mentorships</h1>
       <ul>
-        {mentorshipsDb.map((mentorship) => (
+        {listaMentorias.map((mentorship) => ( // depois substituir no map pelo array gerado pela requisição get
           <>
             <li type='none'>{mentorship}</li>
+            <br></br>
             <button>Participar</button>
+            <p>-----------------------------</p>
           </>
         ))}
       </ul>

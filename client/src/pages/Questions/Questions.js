@@ -6,10 +6,10 @@ import { useState, useEffect} from 'react'
 // const port = process.env.PORT;
 const api = 'http://localhost:8080/api'
 
-// axios.get(api).then((res) => {
-//   let arrayQuestions = res;
-//   console.log(arrayQuestions);
-// })
+axios.get(api).then((res) => {
+  let arrayQuestions = res;
+  console.log(arrayQuestions);
+});
 
 // Página de questões já feitas, onde se pode respondê-las
 
@@ -19,8 +19,6 @@ const Questions = () => {
   const questionsImported = async () => {
       setQuestionsDb(await axios.get(`${api}/mentorships`));
   }
-
-  useEffect(questionsImported, [])
 
   return (
     <Answer />

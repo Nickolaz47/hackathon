@@ -3,17 +3,17 @@ import axios from 'axios';
 // import Question from "./Question";
 
 const Answer = () => {
-    const api = 'http://localhost:8080/api'
+    // const api = 'http://localhost:8080/api' 
 
-    const [questionsDb,setQuestionsDb] = useState('') // preciso requisitar por um get e aparecer as perguntas a serem respondidas
+    // const [questionsDb,setQuestionsDb] = useState('') // preciso requisitar por um get e aparecer as perguntas a serem respondidas
     //    
     const [answer,setAnswer] = useState('')
 
-    const questionsImported = async () => { // to aqui agora
-      setQuestionsDb(await axios.get(`${api}/mentorships`));
-    }
+    // const questionsImported = async () => { // to aqui agora
+    //   setQuestionsDb(await axios.get(`${api}/mentorships`));
+    // }
 
-    useEffect(questionsImported, [])
+    // useEffect(questionsImported, [])
     
     const listaPerguntas = ['pergunta1','pergunta2','pergunta3'] // depois substituir pelo array vindo do get
 
@@ -24,7 +24,7 @@ const Answer = () => {
     // const typeText = () => {
 
     // }
-    // falta fazer função que poste todas as respostas a uma pergunta a ela, no db
+    // falta fazer função que poste todas as respostas a uma pergunta a ela,
 
     // colocar sistema onde somente pessoas autenticadas possam responder
 
