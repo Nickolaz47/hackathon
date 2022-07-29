@@ -1,0 +1,8 @@
+[
+    { "name": "Escolha o tema", "value": null },
+    { "name": "HTML", "value": "html" },
+    { "name": "JavaScript", "value": "javascript" },
+    { "name": "React", "value": "react" },
+    { "name": "NodeJS", "value": "nodejs" },
+    { "name": "Python", "value": "python" }
+]

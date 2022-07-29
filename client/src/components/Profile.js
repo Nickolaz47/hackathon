@@ -1,42 +1,21 @@
-// Hooks
 import { useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
-// Components
-import Message from "../../components/Message";
-import { Link } from "react-router-dom";
+import subjectOptions from "../data/subjectOptions.json"
 
-import subjectOptions from "../../data/subjectOptions.json"
-
-const Register = () => {
+const Profile = () => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [confirmEmail, setConfirmEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [institution, setInstitution] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const [bio, setBio] = useState("");
   const [role, setRole] = useState("");
   const [subject, setSubject] = useState("");
+  const [institution, setInstitution] = useState("");
 
-  const { error, loading, register } = useAuth();
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const newUser = {
-      name,
-      email,
-      confirmEmail,
-      password,
-      confirmPassword,
-      institution,
-      role,
-      subject,
-    };
-    await register(newUser);
   };
-
   return (
     <div className="container">
-      <h2 className="text-center title">Cadastro</h2>
+      <h2 className="text-center title">Edite seus dados</h2>
       <form className="row mb-3" onSubmit={handleSubmit}>
         <div className="col-md-6">
           <label className="form-label">Nome</label>
@@ -50,28 +29,6 @@ const Register = () => {
           />
         </div>
         <div className="col-md-6">
-          <label className="form-label">E-mail</label>
-          <input
-            type="email"
-            className="form-control"
-            placeholder="E-mail"
-            value={email || ""}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-md-6">
-          <label className="form-label">Confirme o e-mail</label>
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Confirme o e-mail"
-            value={confirmEmail || ""}
-            onChange={(e) => setConfirmEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-md-6">
           <label className="form-label">Senha</label>
           <input
             type="password"
@@ -79,17 +36,6 @@ const Register = () => {
             placeholder="Senha"
             value={password || ""}
             onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-md-6">
-          <label className="form-label">Confirme a senha</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Confirme a senha"
-            value={confirmPassword || ""}
-            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </div>
@@ -146,25 +92,9 @@ const Register = () => {
             ))}
           </select>
         </div>
-        <div className="mx-auto text-center my-3">
-          {!loading && (
-            <button className="btn btn-primary" type="submit">
-              Cadastrar
-            </button>
-          )}
-          {loading && (
-            <button className="btn btn-primary" type="submit" disabled>
-              Cadastrando...
-            </button>
-          )}
-          {error && <Message msg={error} type="error" />}
-        </div>
-        <p className="text-center">
-          Já tem conta? <Link to="/login">Clique aqui.</Link>
-        </p>
       </form>
     </div>
   );
 };
 
-export default Register;
+export default Profile;

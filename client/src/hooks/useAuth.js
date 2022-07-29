@@ -1,6 +1,5 @@
 // Hooks
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 // Contexts
 import { UserContext } from "../contexts/UserContext";
 
@@ -9,7 +8,6 @@ import axios from "axios";
 export const useAuth = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
-  const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
   const url = "http://localhost:8080/api/users";
@@ -34,7 +32,6 @@ export const useAuth = () => {
       localStorage.setItem("user", JSON.stringify(registeredUser.data));
 
       setLoading(false);
-      navigate("/dashboard");
     } catch (err) {
       const response = await err.response;
       const errorData = await response.data;
@@ -57,7 +54,6 @@ export const useAuth = () => {
       localStorage.setItem("user", JSON.stringify(loggedUser.data));
 
       setLoading(false);
-      navigate("/dashboard");
     } catch (err) {
       const response = await err.response;
       const errorData = await response.data;
@@ -71,7 +67,6 @@ export const useAuth = () => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
-    navigate("/login");
   };
 
   useEffect(() => {
