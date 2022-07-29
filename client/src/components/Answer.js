@@ -9,6 +9,8 @@ const Answer = ({textQuestion}) => {
         setTextAnswer(e.target.value);
     };
 
+    // colocar sistema onde somente pessoas autenticadas possam responder
+
     return (
         <div>
             <p>Texto da pergunta </p>
