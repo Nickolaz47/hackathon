@@ -69,6 +69,12 @@ const userUpdateValidation = () => {
       .optional()
       .isLength({ min: 8 })
       .withMessage("A senha precisa ter no mínimo 8 caracteres!"),
+    body("subject")
+      .optional()
+      .notEmpty()
+      .withMessage("O conteúdo a ser estudado ou mentorado é obrigatório!")
+      .isString()
+      .withMessage("O conteúdo a ser estudado ou mentorado é obrigatório!"),
   ];
 };
 
