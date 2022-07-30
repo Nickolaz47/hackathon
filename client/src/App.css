@@ -36,3 +36,33 @@
     transform: rotate(360deg);
   }
 }
+
+.container{
+  color: #162b4d;
+  border-radius: 20px;
+}
+
+.container-fluid{
+  background-color: #ebedf0;
+  color: #162b4d;
+  border-style: outset;
+  border-color: lightgray;
+  border-radius: 20px;
+  border-width: 3px;
+}
+
+button{
+  transition-duration: 1000ms;
+  color: white;
+  background-color: black;
+  border-color: #162b4d;
+  border-width: 2px;
+  border-radius: 25%;
+}
+
+button:hover{
+  transition-duration: 1000ms;
+  color: black;
+  background-color: white;
+  border-radius: 25%;
+}

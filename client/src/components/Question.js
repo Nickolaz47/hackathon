@@ -1,23 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios';
 
+
+// página para fazer perguntas
 const Question = () => {
+    const api = 'http://localhost:8080/api' // aqui será para postar a pergunta
+
     const handleOnSubmit = () => {
-        
+        axios.post(`${api}/questions`,textQuestion)
     };
-     // Usar a API pra fazer um post
 
     const [textQuestion,setTextQuestion] = useState(''); // pegar esse "textQuestion", passar para o bd, e exibi-lo no componente de answer
      
-
     const handleOnChange = (e) => {
         setTextQuestion(e.target.value);
     };
 
-    // mandar para um hook personalizada 
+    // mandar para uma hook personalizada 
 
     return (
         <>
-        <div style={{display:'flex'}}>
+        <div className="container">
             <div>
                 <form onSubmit={handleOnSubmit}>
                     <label for={'question'}>Faça sua pergunta</label><br></br>

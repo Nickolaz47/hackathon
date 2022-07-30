@@ -1,33 +1,27 @@
 import React from 'react'
 import axios from 'axios';
+import Answer from '../../components/Answer';
+import { useState, useEffect} from 'react'
 
-const port = process.env.PORT;
-const api = `http://localhost:${port}`
+// const port = process.env.PORT;
+const api = 'http://localhost:8080/api'
 
 axios.get(api).then((res) => {
-  let arrayQuestions = res.data;
-  return arrayQuestions;
-})
+  let arrayQuestions = res;
+  console.log(arrayQuestions);
+});
 
+// Página de questões já feitas, onde se pode respondê-las
 
 const Questions = () => {
-  const listaPerguntas = ['pergunta1','pergunta2','pergunta3'] // depois substituir pelo array vindo do get
+  const [questionsDb,setQuestionsDb] = useState('')
+
+  const questionsImported = async () => {
+      setQuestionsDb(await axios.get(`${api}/mentorships`));
+  }
 
   return (
-    <div className='container-fluid'>
-      <h1>Questions</h1>
-      <ul type={'none'}>
-        {listaPerguntas.map((pergunta) => (
-          <>
-            <li>{pergunta}</li>
-            <br></br>
-            <button>Responder!</button> 
-            {/*caso não esteja logado (implementar a lógica), abrir um modal direcionando ao login/registro*/}
-            <p>----------------------------------------------------</p> 
-          </>
-        ))}
-      </ul>
-    </div>
+    <Answer />
   )
 }
 

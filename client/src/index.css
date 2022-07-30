@@ -5,6 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1440x1920/ae8a972091724d393a80e164281e6f93/photo-1601653241037-317543cbf2de.jpg);
+  background-size: cover;
+  background-position-y: -20em;
 }
 
 code {
@@ -26,4 +29,8 @@ code {
 
 .center-layout{
       padding: 10px;
+}
+
+.container{
+  background-color: #c7cac6;
 }
