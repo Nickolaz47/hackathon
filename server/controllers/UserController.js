@@ -72,7 +72,7 @@ const getCurrentUser = async (req, res) => {
 
 // Update a user
 const updateUser = async (req, res) => {
-  const { name, password, bio, role, subject } = req.body;
+  const { name, password, bio, institution, role, subject } = req.body;
 
   let profileImage = null;
 
@@ -102,6 +102,10 @@ const updateUser = async (req, res) => {
 
   if (bio) {
     user.bio = bio;
+  }
+
+  if (institution) {
+    user.institution = institution;
   }
 
   if (role) {

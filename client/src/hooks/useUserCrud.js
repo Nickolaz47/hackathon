@@ -8,6 +8,7 @@ import axios from "axios";
 export const useUserCrud = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
+  const [message, setMessage] = useState(null);
   const { user } = useContext(UserContext);
 
   //   Avoiding memory leak
@@ -36,11 +37,30 @@ export const useUserCrud = () => {
 
   const updateUser = async (data) => {
     checkIfIsCancelled();
+    setLoading(true);
+    const config = requestConfig("put", data, user.token, true);
+
+    try {
+      await axios(usersUrl, config);
+      setLoading(false);
+      setError(null);
+      setMessage("Usuário atualizado!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+    } catch (err) {
+      const response = await err.response;
+      const errorData = await response.data;
+      const firstError = await errorData.errors[0];
+
+      setLoading(false);
+      setError(firstError);
+    }
   };
 
   useEffect(() => {
     return () => setCancelled(true);
   }, []);
 
-  return { getCurrentUser, updateUser };
+  return { getCurrentUser, updateUser, loading, error, message };
 };

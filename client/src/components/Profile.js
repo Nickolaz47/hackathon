@@ -1,3 +1,5 @@
+// Components
+import Message from "./Message";
 // Hooks
 import { useEffect, useState, useContext } from "react";
 import { useUserCrud } from "../hooks/useUserCrud";
@@ -20,8 +22,7 @@ const Profile = () => {
   const [currentUser, setCurrentUser] = useState("");
 
   const { user } = useContext(UserContext);
-  const { getCurrentUser, updateUser } = useUserCrud();
-
+  const { getCurrentUser, updateUser, error, loading, message } = useUserCrud();
   useEffect(() => {
     const fetchRequest = async () => {
       if (user) {
@@ -32,7 +33,7 @@ const Profile = () => {
     fetchRequest();
   }, [user]);
 
-  // fill user form
+  // Fill user form
   useEffect(() => {
     if (currentUser) {
       setName(currentUser.name);
@@ -57,9 +58,11 @@ const Profile = () => {
     e.preventDefault();
 
     // Gather user data from states
-    const userData = {
-      name,
-    };
+    const userData = {};
+
+    if (name) {
+      userData.name = name;
+    }
 
     if (profileImage) {
       userData.profileImage = profileImage;
@@ -85,14 +88,14 @@ const Profile = () => {
       userData.subject = subject;
     }
 
-    // build form data
+    // Build form data
     const formData = new FormData();
-
     const userFormData = Object.keys(userData).forEach((key) =>
       formData.append(key, userData[key])
     );
 
     formData.append("user", userFormData);
+    await updateUser(formData);
   };
 
   return (
@@ -109,7 +112,7 @@ const Profile = () => {
             src={
               previewImage
                 ? URL.createObjectURL(previewImage)
-                : `${uploads}/currentUsers/${currentUser.profileImage}`
+                : `${uploads}/${currentUser.profileImage}`
             }
             alt={currentUser.name}
           />
@@ -124,7 +127,6 @@ const Profile = () => {
             placeholder="Nome"
             value={name || ""}
             onChange={(e) => setName(e.target.value)}
-            required
           />
         </div>
         <div className="col-md-6">
@@ -149,7 +151,6 @@ const Profile = () => {
             placeholder="Senha"
             value={password || ""}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
         </div>
         <div className="col-md-6">
@@ -196,7 +197,7 @@ const Profile = () => {
                 id="mentorRadio"
                 value="mentor"
                 onChange={(e) => setRole(e.target.value)}
-                defaultChecked={role === "mentor"}
+                checked={role === "mentor"}
               />
               <label className="form-check-label">Mentor</label>
             </div>
@@ -217,6 +218,20 @@ const Profile = () => {
               </option>
             ))}
           </select>
+        </div>
+        <div className="mx-auto text-center my-3">
+          {!loading && (
+            <button className="btn btn-primary" type="submit">
+              Atualizar
+            </button>
+          )}
+          {loading && (
+            <button className="btn btn-primary" type="submit" disabled>
+              Atualizando...
+            </button>
+          )}
+          {error && <Message msg={error} type="error" />}
+          {message && <Message msg={message} type="success" />}
         </div>
       </form>
     </div>

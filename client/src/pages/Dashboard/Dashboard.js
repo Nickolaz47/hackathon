@@ -9,7 +9,10 @@ const Dashboard = () => {
   return (
     <div className="container">
       <div className="row">
-        <aside className="col-md-3 btn-group-vertical my-1">
+        <aside
+          className="col-md-3 btn-group-vertical my-1"
+          style={{ maxHeight: "55vh" }}
+        >
           <button
             className="btn btn-dark btn-lg"
             value="profile"
