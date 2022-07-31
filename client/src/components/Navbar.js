@@ -14,7 +14,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">
-          <h3>The Coders</h3>
+          <h3>PROMETHEUS</h3>
         </NavLink>
         <button
           className="navbar-toggler"
